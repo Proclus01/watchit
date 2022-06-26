@@ -24,6 +24,7 @@
 
 const chokidar = require('chokidar');
 const debounce = require('lodash.debounce');
+// child process to be added later
 const program = require('caporal'); 
 // ^ 'program' nomenclature used because it's an object that represents the program we're building
 
@@ -34,6 +35,15 @@ const program = require('caporal');
 //      different methods that will configure the command line tool we're making
 //
 // ****************************************************************
+
+// Initialize caporal and configure CLI
+program
+    .version('0.0.1') // set a flag to tell the user the version
+    .argument('[filename]', 'Name of a file to execute') // specify the arguments a command will take
+    .action( (args) => console.log(args) ); // runs a function that accepts args, options, etc.
+
+// Run the caporal configuration program
+program.parse(process.argv);
 
 // Debounce is a wrapper that will stop a function from being called too often
 // by returning a new version of the function that cannot be called too often
