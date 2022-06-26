@@ -27,7 +27,7 @@
 const chokidar = require('chokidar');
 const fs = require('fs');
 const debounce = require('lodash.debounce');
-// child process to be added later
+const { spawn } = require('child_process');
 const program = require('caporal'); 
 // ^ 'program' nomenclature used because it's an object that represents the program we're building
 
@@ -59,28 +59,29 @@ program
                 throw new Error(`Could not find the file ${name}`);
             }
 
-            // Run debounce and watcher
-            watchAndListen();
-    }); 
+            // ***************************
+            // Important: Run debounce and watcher
+            // ***************************
+            
+            // Debounce is a wrapper that will stop a function from being called too often
+            // by returning a new version of the function that cannot be called too often
+            const start = debounce(() => {
+                //
+                spawn('node', [name], { stdio: 'inherit' });
+
+            }, 100); // debounce 100 milliseconds
+        
+            // Initialize Watcher
+            //      Watch from current directory
+            //      Attach 3 event listeners and handlers
+            //  vv
+            chokidar
+                .watch('.')
+                .on('add', () => start('add')) // listen for add, log occurrence
+                .on('change', () => start('change')) // listen for change, log occurrence
+                .on('unlink', () => start('unlink')); // listen for unlink, log occurrence
+        } // end of async {filename}
+    ); // end of action
 
 // Run the caporal configuration program
-program.parse(process.argv);
-
-const watchAndListen = function() {
-    // Debounce is a wrapper that will stop a function from being called too often
-    // by returning a new version of the function that cannot be called too often
-    const start = debounce((input) => {
-        console.log(`${input} detected`);
-    }, 100); // debounce 100 milliseconds
-
-    // Initialize Watcher
-    //      Watch from current directory
-    //      Attach 3 event listeners and handlers
-    //  vv
-    chokidar
-        .watch('.')
-        .on('add', () => start('add')) // listen for add, log occurrence
-        .on('change', () => start('change')) // listen for change, log occurrence
-        .on('unlink', () => start('unlink')); // listen for unlink, log occurrence
-};
-
+program.parse(process.argv); 
