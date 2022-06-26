@@ -25,6 +25,7 @@
 //
 
 const chokidar = require('chokidar');
+const fs = require('fs');
 const debounce = require('lodash.debounce');
 // child process to be added later
 const program = require('caporal'); 
@@ -40,13 +41,25 @@ const program = require('caporal');
 
 // Initialize caporal and configure CLI
 //      square brackets indicate arg is optional
-//`     angle brackets indicate arg is necessary
+//      angle brackets indicate arg is necessary
+//      When we run the 'help' screen in CLI,
+//      this function will configure the display of instructions.
 program
     .version('0.0.1') // set a flag to tell the user the version
     .argument('[filename]', 'Name of a file to execute') // specify the arguments a command will take
     .action( // runs a function that accepts args, options, etc
-        (args) => {
-            // 
+        async ({ filename }) => {
+            // If we don't get a filename, default to 'index.js'
+            const name = filename || 'index.js';
+
+            // Check whether or not the file exists
+            try {
+                await fs.promises.access(name);
+            } catch (err) {
+                throw new Error(`Could not find the file ${name}`);
+            }
+
+            // Run debounce and watcher
             watchAndListen();
     }); 
 
@@ -57,7 +70,7 @@ const watchAndListen = function() {
     // Debounce is a wrapper that will stop a function from being called too often
     // by returning a new version of the function that cannot be called too often
     const start = debounce((input) => {
-        console.log('${input} detected');
+        console.log(`${input} detected`);
     }, 100); // debounce 100 milliseconds
 
     // Initialize Watcher
