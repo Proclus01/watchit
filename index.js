@@ -23,11 +23,12 @@
 //
 
 const chokidar = require('chokidar');
+const debounce = require('lodash.debounce');
 
 // Initialize Watcher
 //      Watch from current directory
 //      Attach 3 event listeners and handlers
-// vv
+//  vv
 chokidar.watch('.')
     .on('add', () => console.log('file added')) // listen for add, log occurrence
     .on('change', () => console.log('file changed')) // listen for change, log occurrence
