@@ -62,12 +62,19 @@ program
             // ***************************
             // Important: Run debounce and watcher
             // ***************************
+
+            let proc; // Process variable to track our child processes
             
             // Debounce is a wrapper that will stop a function from being called too often
             // by returning a new version of the function that cannot be called too often
             const start = debounce(() => {
-                //
-                spawn('node', [name], { stdio: 'inherit' });
+                // If a child process already exists, then terminate it
+                if (proc) {
+                    proc.kill();
+                }
+
+                // Spawn a child process to track filechanges
+                proc = spawn('node', [name], { stdio: 'inherit' });
 
             }, 100); // debounce 100 milliseconds
         
