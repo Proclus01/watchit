@@ -25,12 +25,19 @@
 const chokidar = require('chokidar');
 const debounce = require('lodash.debounce');
 
+// Debounce is a wrapper that will stop a function from being called 
+// by returning a new version of the function that cannot be called too often
+const start = debounce(() => {
+    console.log('Starting User Program');
+}, 100); // debounce 100 milliseconds
+
 // Initialize Watcher
 //      Watch from current directory
 //      Attach 3 event listeners and handlers
 //  vv
-chokidar.watch('.')
-    .on('add', () => console.log('file added')) // listen for add, log occurrence
+chokidar
+    .watch('.')
+    .on('add', () => start()) // listen for add, log occurrence
     .on('change', () => console.log('file changed')) // listen for change, log occurrence
     .on('unlink', () => console.log('file unlinked')); // listen for unlink, log occurrence
 
