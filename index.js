@@ -24,8 +24,18 @@
 
 const chokidar = require('chokidar');
 const debounce = require('lodash.debounce');
+const program = require('caporal'); 
+// ^ 'program' nomenclature used because it's an object that represents the program we're building
 
-// Debounce is a wrapper that will stop a function from being called 
+// ****************************************************************
+//
+//      A Note on Caporal:
+//      When we require caporal, we will need to chain on a couple of 
+//      different methods that will configure the command line tool we're making
+//
+// ****************************************************************
+
+// Debounce is a wrapper that will stop a function from being called too often
 // by returning a new version of the function that cannot be called too often
 const start = debounce(() => {
     console.log('Starting User Program');
