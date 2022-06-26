@@ -40,10 +40,10 @@ const program = require('caporal');
 // ****************************************************************
 
 // Initialize caporal and configure CLI
-//      square brackets indicate arg is optional
-//      angle brackets indicate arg is necessary
-//      When we run the 'help' screen in CLI,
-//      this function will configure the display of instructions.
+//      A. square brackets indicate arg is optional
+//      B. angle brackets indicate arg is necessary
+//      C. When the user runs the 'help' screen in CLI,
+//      then this function will configure the display of instructions.
 program
     .version('0.0.1') // set a flag to tell the user the version
     .argument('[filename]', 'Name of a file to execute') // specify the arguments a command will take
