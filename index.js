@@ -14,4 +14,22 @@
 
 // Begin:
 
-console.log('I was executed'); // lol
+//
+//      We have three dependencies we need to complete our app:
+//
+//      1. 'chokidar' to detect any file changes
+//      2. 'caporal' for our CLI tools
+//      3. 'child_process' to execute JS code inside our program
+//
+
+const chokidar = require('chokidar');
+
+// Initialize Watcher
+//      Watch from current directory
+//      Attach 3 event listeners and handlers
+// vv
+chokidar.watch('.')
+    .on('add', () => console.log('file added')) // listen for add, log occurrence
+    .on('change', () => console.log('file changed')) // listen for change, log occurrence
+    .on('unlink', () => console.log('file unlinked')); // listen for unlink, log occurrence
+
