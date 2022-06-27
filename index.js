@@ -10,7 +10,7 @@
 //      for changes in your app and then reports these changes to you
 //      through an active process in a CLI.
 //      
-//      Run in terminal using 'watchit'
+//      Run in terminal using 'watchit test.js' to track the test.js file
 //
 // ****************************************************************
 
@@ -24,11 +24,14 @@
 //      3. 'child_process' to execute JS code inside our program
 //
 
-const chokidar = require('chokidar');
-const fs = require('fs');
-const debounce = require('lodash.debounce');
-const { spawn } = require('child_process');
-const program = require('caporal'); 
+import chalk from 'chalk';
+import * as chokidar from 'chokidar';
+import * as fs from 'fs';
+import debounce from 'lodash.debounce';
+import { spawn } from 'child_process';
+import program from 'caporal';
+
+
 // ^ 'program' nomenclature used because it's an object that represents the program we're building
 
 // ****************************************************************
@@ -73,10 +76,13 @@ program
                     proc.kill();
                 }
 
+                // Broadcast process start
+                console.log(chalk.blue('>>>> Starting process...'));
+
                 // Spawn a child process to track filechanges
                 proc = spawn('node', [name], { stdio: 'inherit' });
 
-            }, 100); // debounce 100 milliseconds
+            }, 200); // debounce 200 milliseconds
         
             // Initialize Watcher
             //      Watch from current directory
