@@ -30,8 +30,6 @@ import * as fs from 'fs';
 import debounce from 'lodash.debounce';
 import { spawn } from 'child_process';
 import program from 'caporal';
-
-
 // ^ 'program' nomenclature used because it's an object that represents the program we're building
 
 // ****************************************************************
