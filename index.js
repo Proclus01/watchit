@@ -24,9 +24,9 @@
 //      3. 'child_process' to execute JS code inside our program
 //
 
-import chalk from 'chalk';
+import chalk from 'chalk'; // to color our CLI text
 import * as chokidar from 'chokidar';
-import * as fs from 'fs';
+import * as fs from 'fs'; // We will be using this one a lot
 import debounce from 'lodash.debounce';
 import { spawn } from 'child_process';
 import program from 'caporal';
